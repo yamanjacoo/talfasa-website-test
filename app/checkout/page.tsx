@@ -374,13 +374,14 @@ export default function CheckoutPage() {
                           <path d="M11 3v4" />
                           <path d="M15 10l2 2-2 2" />
                         </svg>
-                      </div> */
+                      </div> 
                       <p className="text-sm text-gray-600 max-w-md">
                         After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase
                         securely.
                       </p>
                     </div>
-                  </div>
+                  </div> */
+
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="save-info" />
