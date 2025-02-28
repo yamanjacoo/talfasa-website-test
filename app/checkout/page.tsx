@@ -1,7 +1,7 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useProducts } from "@/lib/products"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,25 +10,27 @@ import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { config } from "@/lib/config"
+import { config, getDynamicPaymentSettings } from "@/lib/config" // Adjust path as needed
 import { PayPalScriptProvider, PayPalButtons, FUNDING } from "@paypal/react-paypal-js"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface SimplePayPalButtonProps {
   amount: string
+  receiverEmail: string // Add dynamic receiverEmail
+  currency: string // Add dynamic currency
 }
 
 interface CreateOrderResponse {
   orderID: string
 }
 
-function SimplePayPalButton({ amount }: SimplePayPalButtonProps) {
+function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalButtonProps) {
   return (
     <PayPalScriptProvider
       options={{
-        clientId: config.paypal.clientId,
-        currency: config.paypal.currency,
+        clientId: config.paypal.clientId, // Keep static clientId from config
+        currency: currency, // Use dynamic currency
       }}
     >
       <PayPalButtons
@@ -39,7 +41,7 @@ function SimplePayPalButton({ amount }: SimplePayPalButtonProps) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              receiver_email: config.paypal.receiverEmail,
+              receiver_email: receiverEmail, // Use dynamic receiverEmail
               amount: amount,
             }),
           })
@@ -53,7 +55,7 @@ function SimplePayPalButton({ amount }: SimplePayPalButtonProps) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               orderID: data.orderID,
-              receiver_email: config.paypal.receiverEmail,
+              receiver_email: receiverEmail, // Use dynamic receiverEmail
             }),
           })
           const details = await response.json()
@@ -85,6 +87,38 @@ export default function CheckoutPage() {
   const { products } = useProducts()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const shipping = 0 // Express shipping is always free
+
+  // State for dynamic payment settings
+  const [paymentSettings, setPaymentSettings] = useState({
+    paypal: {
+      receiverEmail: config.paypal.receiverEmail,
+      currency: config.paypal.currency,
+      showPayPalButton: config.paypal.showPayPalButton,
+    },
+    payNow: {
+      enabled: config.payNow.enabled,
+      link: config.payNow.link,
+    },
+  })
+
+  // Fetch dynamic payment settings on mount
+  useEffect(() => {
+    async function fetchPaymentSettings() {
+      const settings = await getDynamicPaymentSettings()
+      setPaymentSettings({
+        paypal: {
+          receiverEmail: settings.paypal?.receiverEmail || config.paypal.receiverEmail,
+          currency: settings.paypal?.currency || config.paypal.currency,
+          showPayPalButton: settings.paypal?.showPayPalButton ?? config.paypal.showPayPalButton,
+        },
+        payNow: {
+          enabled: settings.payNow?.enabled ?? config.payNow.enabled,
+          link: settings.payNow?.link || config.payNow.link,
+        },
+      })
+    }
+    fetchPaymentSettings()
+  }, [])
 
   const product = products.find((p) => p.id.toString() === productId)
 
@@ -333,9 +367,15 @@ export default function CheckoutPage() {
                       <Checkbox id="save-info" />
                       <Label htmlFor="save-info">Save this information for next time</Label>
                     </div>
-                    {config.paypal.showPayPalButton && <SimplePayPalButton amount={total.toFixed(2)} />}
-                    {config.payNow.enabled && (
-                      <Link href={config.payNow.link} className="w-full block">
+                    {paymentSettings.paypal.showPayPalButton && (
+                      <SimplePayPalButton
+                        amount={total.toFixed(2)}
+                        receiverEmail={paymentSettings.paypal.receiverEmail}
+                        currency={paymentSettings.paypal.currency}
+                      />
+                    )}
+                    {paymentSettings.payNow.enabled && (
+                      <Link href={paymentSettings.payNow.link} className="w-full block">
                         <Button className="w-full bg-black hover:bg-black/90 text-white" size="lg">
                           Pay Now ${total.toFixed(2)}
                         </Button>
@@ -418,4 +458,3 @@ export default function CheckoutPage() {
     </div>
   )
 }
-
