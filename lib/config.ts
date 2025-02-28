@@ -1,8 +1,86 @@
-import fetch from 'node-fetch'; // Import fetch if using Node.js
-import path from 'path';
+export const config = {
+  // API Configuration
+  jsonUrls: [
+    {
+      url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json",
+      type: "shopify" as const,
+    },
+  ],
+  revalidateTime: 3600,
 
-async function loadPaymentConfig() {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/paymentConfig.json"; // GitHub URL to paymentConfig.json
+  // Store Information
+  storeName: "talfasa Store",
+  storeDescription: "Shop the latest Talfasa adventure gear and drinkware",
+
+  // Header Configuration
+  header: {
+    logo: {
+      src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500", // Change this to your logo URL
+      width: 108, // Height in pixels for desktop
+      height: 64, // Width in pixels for desktop
+      mobileDimensions: {
+        width: 90, // Height in pixels for mobile
+        height: 62, // Width in pixels for mobile
+      },
+      alt: "Stanley Logo",
+    },
+    contact: {
+      phone: "+447508219590", // Change this to your phone number
+      displayPhone: "+44 750 821 9590", // How the phone number should be displayed
+      showPhoneOnMobile: false, // Whether to show phone number on mobile devices
+    },
+    social: {
+      facebook: "https://facebook.com", // Change to your Facebook URL
+      instagram: "https://instagram.com", // Change to your Instagram URL
+      showSocialOnMobile: false, // Whether to show social icons on mobile devices
+    },
+    announcements: [
+      "🌎 Free Worldwide Shipping on All Orders!",
+      "🚚 Fast & Free International Delivery",
+      "✨ Free Shipping to Your Doorstep, Anywhere in the World",
+      "🌍 Global Free Shipping, Local Support",
+    ],
+    announcementDuration: 4000, // Duration in milliseconds for each announcement
+  },
+
+  // Product Display Configuration
+  defaultImage: "https://raw.githubusercontent.com/shadcn/ui/main/apps/www/public/placeholder.svg",
+  fallbackImages: {
+    product: "/placeholder.svg",
+    thumbnail: "/placeholder-thumb.svg",
+    category: "/placeholder-category.svg",
+  },
+  maxTagsInCard: 3,
+
+  // Pricing Configuration
+  pricing: {
+    fixedPrice: {
+      enabled: true,
+      amount: 19,
+    },
+    reduction: {
+      enabled: false,
+      percentage: 50,
+    },
+    display: {
+      showOriginalPrice: false,
+      showDiscountBadge: false,
+    },
+  },
+
+  // Quantity Configuration
+  quantity: {
+    forceSingleStock: true,
+    singleStockMessage: "Limited Edition - Only 1 Available",
+    stockRange: {
+      min: 50,
+      max: 100,
+    },
+  },
+
+  // PayPal Configuration
+  async function loadPaymentConfig() {
+  const paymentConfigUrl = "https://raw.githubusercontent.com/username/repository/branch/paymentConfig.json"; // Change to your GitHub URL
   try {
     const response = await fetch(paymentConfigUrl);
     if (!response.ok) {
@@ -15,7 +93,7 @@ async function loadPaymentConfig() {
     return {
       paypal: {},
       payNow: {}
-    };
+    }; // Fallback empty config in case of error
   }
 }
 
@@ -24,93 +102,15 @@ export const config = await (async () => {
   const paymentConfig = await loadPaymentConfig();
 
   return {
-    // API Configuration
-    jsonUrls: [
-      {
-        url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json",
-        type: "shopify" as const,
-      },
-    ],
-    revalidateTime: 3600,
+    // Your existing config fields
 
-    // Store Information
-    storeName: "talfasa Store",
-    storeDescription: "Shop the latest Talfasa adventure gear and drinkware",
-
-    // Header Configuration
-    header: {
-      logo: {
-        src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500", // Change this to your logo URL
-        width: 108, // Height in pixels for desktop
-        height: 64, // Width in pixels for desktop
-        mobileDimensions: {
-          width: 90, // Height in pixels for mobile
-          height: 62, // Width in pixels for mobile
-        },
-        alt: "Stanley Logo",
-      },
-      contact: {
-        phone: "+447508219590", // Change this to your phone number
-        displayPhone: "+44 750 821 9590", // How the phone number should be displayed
-        showPhoneOnMobile: false, // Whether to show phone number on mobile devices
-      },
-      social: {
-        facebook: "https://facebook.com", // Change to your Facebook URL
-        instagram: "https://instagram.com", // Change to your Instagram URL
-        showSocialOnMobile: false, // Whether to show social icons on mobile devices
-      },
-      announcements: [
-        "🌎 Free Worldwide Shipping on All Orders!",
-        "🚚 Fast & Free International Delivery",
-        "✨ Free Shipping to Your Doorstep, Anywhere in the World",
-        "🌍 Global Free Shipping, Local Support",
-      ],
-      announcementDuration: 4000, // Duration in milliseconds for each announcement
-    },
-
-    // Product Display Configuration
-    defaultImage: "https://raw.githubusercontent.com/shadcn/ui/main/apps/www/public/placeholder.svg",
-    fallbackImages: {
-      product: "/placeholder.svg",
-      thumbnail: "/placeholder-thumb.svg",
-      category: "/placeholder-category.svg",
-    },
-    maxTagsInCard: 3,
-
-    // Pricing Configuration
-    pricing: {
-      fixedPrice: {
-        enabled: true,
-        amount: 19,
-      },
-      reduction: {
-        enabled: false,
-        percentage: 50,
-      },
-      display: {
-        showOriginalPrice: false,
-        showDiscountBadge: false,
-      },
-    },
-
-    // Quantity Configuration
-    quantity: {
-      forceSingleStock: true,
-      singleStockMessage: "Limited Edition - Only 1 Available",
-      stockRange: {
-        min: 50,
-        max: 100,
-      },
-    },
-
-    // PayPal Configuration (fetched from GitHub)
+    // PayPal Configuration (dynamically fetched from GitHub)
     paypal: paymentConfig.paypal,
 
-    // Pay Now Configuration (fetched from GitHub)
+    // Pay Now Configuration (dynamically fetched from GitHub)
     payNow: paymentConfig.payNow,
   };
 })();
-
 
   // Hero Section Configuration
   hero: {
