@@ -108,7 +108,7 @@ export const config = {
         link: "/products",
       },
       image: {
-        src: "https://www.stanley1913.com/cdn/shop/files/021825_HP_Discover_Hot-Coral.jpg?v=1739571375&width=1200",
+        src: "https://www.stanley1913.com/cdn/shop/files/021125_Product_DT-CAN_62148587-eb84-4008-9ef9-03f74411d3a1.jpg?v=1740426135&width=1320",
         alt: "Talfasa Stanley Collection",
         priority: true,
       },
@@ -898,7 +898,7 @@ export const config = {
         },
       ],
       image: {
-        src: "https://talfasa.myshopify.com/cdn/shop/files/W-230097_Wine-Chiller_Educational_Graphic_2400x2400_acf22007-ba70-47cb-b835-d05d9c7e0701.png?v=1740250529&width=750",
+        src: "https://www.stanley1913.com/cdn/shop/files/021125_Product_DT-CAN_62148587-eb84-4008-9ef9-03f74411d3a1.jpg?v=1740426135&width=1320",
         alt: "Talfasa product showcase",
       },
     },
@@ -940,7 +940,7 @@ export const config = {
         link: "/products",
       },
       image: {
-        src: "https://images.unsplash.com/photo-1610824352934-c10d87b700cc?q=80&w=1905&auto=format&fit=crop",
+        src: "https://www.stanley1913.com/cdn/shop/files/stanley-footer.jpg?v=1718313630",
         alt: "Talfasa innovative products",
       },
     },
