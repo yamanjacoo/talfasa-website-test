@@ -79,38 +79,16 @@ export const config = {
   },
 
   // PayPal Configuration
-  async function loadPaymentConfig() {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/username/repository/branch/paymentConfig.json"; // Change to your GitHub URL
-  try {
-    const response = await fetch(paymentConfigUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch payment config: ${response.statusText}`);
-    }
-    const paymentConfig = await response.json();
-    return paymentConfig;
-  } catch (error) {
-    console.error("Error loading payment configuration:", error);
-    return {
-      paypal: {},
-      payNow: {}
-    }; // Fallback empty config in case of error
-  }
-}
-
-// Fetch the configuration asynchronously
-export const config = await (async () => {
-  const paymentConfig = await loadPaymentConfig();
-
-  return {
-    // Your existing config fields
-
-    // PayPal Configuration (dynamically fetched from GitHub)
-    paypal: paymentConfig.paypal,
-
-    // Pay Now Configuration (dynamically fetched from GitHub)
-    payNow: paymentConfig.payNow,
-  };
-})();
+  paypal: {
+    clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6",
+    receiverEmail: "ronjaa.curtis@outlook.com",
+    currency: "USD",
+    showPayPalButton: false,
+  },
+  payNow: {
+    enabled: true,
+    link: "https://pay.sumup.com/b2c/QWTUMLR1",
+  },
 
   // Hero Section Configuration
   hero: {
