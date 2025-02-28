@@ -26,7 +26,7 @@ interface CreateOrderResponse {
 }
 
 function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalButtonProps) {
-  console.log("PayPal Button Config:", { receiverEmail, currency }); // Log for debugging
+  console.log("PayPal Button Config:", { receiverEmail, currency }); // Debug PayPal props
   return (
     <PayPalScriptProvider
       options={{
@@ -85,7 +85,12 @@ export default function CheckoutPage() {
   const { products } = useProducts()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const shipping = 0 // Express shipping is always free
-  const [paymentSettings, setPaymentSettings] = useState({
+
+  // State for dynamic payment settings with explicit types
+  const [paymentSettings, setPaymentSettings] = useState<{
+    paypal: { receiverEmail: string; currency: string; showPayPalButton: boolean }
+    payNow: { enabled: boolean; link: string }
+  }>({
     paypal: {
       receiverEmail: config.paypal.receiverEmail,
       currency: config.paypal.currency,
@@ -96,14 +101,13 @@ export default function CheckoutPage() {
       link: config.payNow.link,
     },
   })
-  const [loading, setLoading] = useState(true) // Add loading state
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchPaymentSettings() {
       try {
         const settings = await getDynamicPaymentSettings()
-        console.log("Fetched Payment Settings:", settings) // Log fetched settings
-        setPaymentSettings({
+        const updatedSettings = {
           paypal: {
             receiverEmail: settings.paypal?.receiverEmail || config.paypal.receiverEmail,
             currency: settings.paypal?.currency || config.paypal.currency,
@@ -113,11 +117,13 @@ export default function CheckoutPage() {
             enabled: settings.payNow?.enabled ?? config.payNow.enabled,
             link: settings.payNow?.link || config.payNow.link,
           },
-        })
+        }
+        console.log("Fetched and Applied Payment Settings:", updatedSettings) // Debug applied settings
+        setPaymentSettings(updatedSettings)
       } catch (error) {
         console.error("Fetch Payment Settings Failed:", error)
       } finally {
-        setLoading(false) // Set loading to false after fetch
+        setLoading(false)
       }
     }
     fetchPaymentSettings()
@@ -368,19 +374,23 @@ export default function CheckoutPage() {
                       <p>Loading payment options...</p>
                     ) : (
                       <>
-                        {paymentSettings.paypal.showPayPalButton && (
+                        {paymentSettings.paypal.showPayPalButton ? (
                           <SimplePayPalButton
                             amount={total.toFixed(2)}
                             receiverEmail={paymentSettings.paypal.receiverEmail}
                             currency={paymentSettings.paypal.currency}
                           />
+                        ) : (
+                          <p>PayPal payment is currently disabled.</p>
                         )}
-                        {paymentSettings.payNow.enabled && (
+                        {paymentSettings.payNow.enabled ? (
                           <Link href={paymentSettings.payNow.link} className="w-full block">
                             <Button className="w-full bg-black hover:bg-black/90 text-white" size="lg">
                               Pay Now ${total.toFixed(2)}
                             </Button>
                           </Link>
+                        ) : (
+                          <p>Pay Now option is currently disabled.</p>
                         )}
                       </>
                     )}
