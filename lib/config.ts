@@ -1,6 +1,6 @@
 // config.ts
 
-export const config = {
+export let config = {
   jsonUrls: [
     {
       url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json",
@@ -75,15 +75,14 @@ export const config = {
   },
 
   paypal: {
-    clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6",
-    receiverEmail: "ronjaa.curtis@outlook.com",
-    currency: "USD",
-    showPayPalButton: false,
+    clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6", // Constant
+    receiverEmail: "ronjaa.curtis@outlook.com", // Default, updated dynamically
+    currency: "USD", // Default, updated dynamically
+    showPayPalButton: false, // Default, updated dynamically
   },
-
   payNow: {
-    enabled: true,
-    link: "https://pay.sumup.com/b2c/QWTUMLR1",
+    enabled: true, // Default, updated dynamically
+    link: "https://pay.sumup.com/b2c/QWTUMLR1", // Default, updated dynamically
   },
 
   hero: {
@@ -1307,24 +1306,24 @@ config.jsonUrls.forEach((source, index) => {
   }
 });
 
-export type DynamicPaymentSettings = {
-  paypal?: {
-    clientId?: string; // Add clientId
-    receiverEmail?: string;
-    currency?: string;
-    showPayPalButton?: boolean;
+// Define type for dynamic payment config
+type DynamicPaymentConfig = {
+  paypal: {
+    receiverEmail: string;
+    currency: string;
+    showPayPalButton: boolean;
   };
-  payNow?: {
-    enabled?: boolean;
-    link?: string;
+  payNow: {
+    enabled: boolean;
+    link: string;
   };
 };
 
-export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
+// Function to fetch and update payment config dynamically
+export async function getDynamicPaymentConfig(): Promise<DynamicPaymentConfig> {
   const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json";
-  const defaults: DynamicPaymentSettings = {
+  const defaults = {
     paypal: {
-      clientId: config.paypal.clientId, // Add default clientId
       receiverEmail: config.paypal.receiverEmail,
       currency: config.paypal.currency,
       showPayPalButton: config.paypal.showPayPalButton,
@@ -1338,11 +1337,12 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
   try {
     const response = await fetch(paymentConfigUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`Failed to fetch payment settings: ${response.statusText}`);
-    const dynamicSettings: DynamicPaymentSettings = await response.json();
-    console.log("Successfully fetched payment settings from:", paymentConfigUrl, dynamicSettings);
-    return {
+    
+    const dynamicSettings = await response.json();
+    console.log("Fetched Dynamic Payment Config:", dynamicSettings);
+
+    const updatedConfig = {
       paypal: {
-        clientId: dynamicSettings.paypal?.clientId ?? defaults.paypal.clientId, // Add clientId
         receiverEmail: dynamicSettings.paypal?.receiverEmail ?? defaults.paypal.receiverEmail,
         currency: dynamicSettings.paypal?.currency ?? defaults.paypal.currency,
         showPayPalButton: dynamicSettings.paypal?.showPayPalButton ?? defaults.paypal.showPayPalButton,
@@ -1352,8 +1352,25 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
         link: dynamicSettings.payNow?.link ?? defaults.payNow.link,
       },
     };
+
+    // Update the config object dynamically
+    config = {
+      ...config,
+      paypal: {
+        ...config.paypal,
+        receiverEmail: updatedConfig.paypal.receiverEmail,
+        currency: updatedConfig.paypal.currency,
+        showPayPalButton: updatedConfig.paypal.showPayPalButton,
+      },
+      payNow: {
+        enabled: updatedConfig.payNow.enabled,
+        link: updatedConfig.payNow.link,
+      },
+    };
+
+    return updatedConfig;
   } catch (error) {
-    console.error("Error fetching dynamic payment settings:", error);
+    console.error("Error fetching dynamic payment config:", error);
     return defaults;
   }
 }
