@@ -108,7 +108,7 @@ export const config = {
         link: "/products",
       },
       image: {
-        src: "https://talfasa.myshopify.com/cdn/shop/files/W-230097_Wine-Chiller_Educational_Graphic_2400x2400_acf22007-ba70-47cb-b835-d05d9c7e0701.png?v=1740250529&width=750",
+        src: "https://www.stanley1913.com/cdn/shop/files/021825_HP_Discover_Hot-Coral.jpg?v=1739571375&width=1200",
         alt: "Talfasa Stanley Collection",
         priority: true,
       },
