@@ -188,7 +188,7 @@ export function ContactUsContent() {
             </li>
             <li>
               <a href="/support/product-registration" className="text-primary hover:underline">
-                Register Your Product
+                Register Your Product hhhhhhhh
               </a>
             </li>
           </ul>
