@@ -1,8 +1,10 @@
+// config.ts
+
 export const config = {
   // API Configuration
   jsonUrls: [
     {
-      url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json",
+      url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json", // Kept for product fetching
       type: "shopify" as const,
     },
   ],
@@ -15,24 +17,24 @@ export const config = {
   // Header Configuration
   header: {
     logo: {
-      src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500", // Change this to your logo URL
-      width: 108, // Height in pixels for desktop
-      height: 64, // Width in pixels for desktop
+      src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500",
+      width: 108,
+      height: 64,
       mobileDimensions: {
-        width: 90, // Height in pixels for mobile
-        height: 62, // Width in pixels for mobile
+        width: 90,
+        height: 62,
       },
       alt: "Stanley Logo",
     },
     contact: {
-      phone: "+447508219590", // Change this to your phone number
-      displayPhone: "+44 750 821 9590", // How the phone number should be displayed
-      showPhoneOnMobile: false, // Whether to show phone number on mobile devices
+      phone: "+447508219590",
+      displayPhone: "+44 750 821 9590",
+      showPhoneOnMobile: false,
     },
     social: {
-      facebook: "https://facebook.com", // Change to your Facebook URL
-      instagram: "https://instagram.com", // Change to your Instagram URL
-      showSocialOnMobile: false, // Whether to show social icons on mobile devices
+      facebook: "https://facebook.com",
+      instagram: "https://instagram.com",
+      showSocialOnMobile: false,
     },
     announcements: [
       "🌎 Free Worldwide Shipping on All Orders!",
@@ -40,7 +42,7 @@ export const config = {
       "✨ Free Shipping to Your Doorstep, Anywhere in the World",
       "🌍 Global Free Shipping, Local Support",
     ],
-    announcementDuration: 4000, // Duration in milliseconds for each announcement
+    announcementDuration: 4000,
   },
 
   // Product Display Configuration
@@ -78,13 +80,15 @@ export const config = {
     },
   },
 
-  // PayPal Configuration
+  // PayPal Configuration (static defaults)
   paypal: {
     clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6",
     receiverEmail: "ronjaa.curtis@outlook.com",
     currency: "USD",
     showPayPalButton: false,
   },
+
+  // Pay Now Configuration (static defaults)
   payNow: {
     enabled: true,
     link: "https://pay.sumup.com/b2c/QWTUMLR1",
@@ -126,7 +130,7 @@ export const config = {
       ],
       background: {
         color: "#F5F5F5",
-        pattern: true, // Enable grid pattern
+        pattern: true,
       },
     },
     dimensions: {
@@ -146,6 +150,7 @@ export const config = {
       },
     },
   },
+
   // Testimonials Configuration
   testimonials: {
     heading: {
@@ -193,7 +198,7 @@ export const config = {
           dark: "/trustpilot-logo-dark.svg",
         },
         stars: {
-          color: "#00b67a", // Trustpilot green
+          color: "#00b67a",
         },
       },
     },
@@ -202,7 +207,6 @@ export const config = {
       staggerDelay: 0.1,
     },
   },
-
 
   // Gallery Section Configuration
   gallery: {
@@ -280,14 +284,14 @@ export const config = {
       },
     ],
     display: {
-      maxItems: 10, // Maximum number of FAQs to show
-      showAllOnMobile: false, // Whether to show all FAQs on mobile or maintain maxItems limit
+      maxItems: 10,
+      showAllOnMobile: false,
     },
     style: {
-      background: "#F8F7F4", // Background color for the FAQ section
+      background: "#F8F7F4",
       spacing: {
-        sectionPadding: "py-24", // Padding for the entire section
-        itemSpacing: "space-y-4", // Spacing between FAQ items
+        sectionPadding: "py-24",
+        itemSpacing: "space-y-4",
       },
     },
   },
@@ -318,7 +322,7 @@ export const config = {
     style: {
       background: {
         color: "#FFFFFF",
-        pattern: true, // Enable grid pattern
+        pattern: true,
       },
       spacing: {
         sectionPadding: "py-24",
@@ -326,6 +330,7 @@ export const config = {
       },
     },
   },
+
   // Help Center Configuration
   helpCenter: {
     heading: {
@@ -705,7 +710,6 @@ export const config = {
     },
   },
 
-
   // Shipping Page Configuration
   shipping: {
     heading: {
@@ -717,65 +721,65 @@ export const config = {
       countrySelector: {
         label: "Country",
         popularCountries: [
-        { code: "US", name: "United States" },
-        { code: "GB", name: "United Kingdom" },
-        { code: "CA", name: "Canada" },
-        { code: "AU", name: "Australia" },
-        { code: "IN", name: "India" },
-        { code: "FR", name: "France" },
-        { code: "DE", name: "Germany" },
-        { code: "IT", name: "Italy" },
-        { code: "ES", name: "Spain" },
-        { code: "MX", name: "Mexico" },
-        { code: "BR", name: "Brazil" },
-        { code: "JP", name: "Japan" },
-        { code: "KR", name: "South Korea" },
-        { code: "ZA", name: "South Africa" },
-        { code: "SG", name: "Singapore" },
-        { code: "NL", name: "Netherlands" },
-        { code: "SE", name: "Sweden" },
-        { code: "NO", name: "Norway" },
-        { code: "DK", name: "Denmark" },
-        { code: "FI", name: "Finland" },
-        { code: "PL", name: "Poland" },
-        { code: "AT", name: "Austria" },
-        { code: "CH", name: "Switzerland" },
-        { code: "BE", name: "Belgium" },
-        { code: "IE", name: "Ireland" },
-        { code: "PT", name: "Portugal" },
-        { code: "GR", name: "Greece" },
-        { code: "CZ", name: "Czech Republic" },
-        { code: "HU", name: "Hungary" },
-        { code: "RO", name: "Romania" },
-        { code: "UA", name: "Ukraine" },
-        { code: "PH", name: "Philippines" },
-        { code: "TH", name: "Thailand" },
-        { code: "ID", name: "Indonesia" },
-        { code: "MY", name: "Malaysia" },
-        { code: "VN", name: "Vietnam" },
-        { code: "EG", name: "Egypt" },
-        { code: "KE", name: "Kenya" },
-        { code: "NG", name: "Nigeria" },
-        { code: "AR", name: "Argentina" },
-        { code: "CL", name: "Chile" },
-        { code: "CO", name: "Colombia" },
-        { code: "PE", name: "Peru" },
-        { code: "VE", name: "Venezuela" },
-        { code: "NZ", name: "New Zealand" },
-        { code: "KW", name: "Kuwait" },
-        { code: "QA", name: "Qatar" },
-        { code: "SA", name: "Saudi Arabia" },
-        { code: "AE", name: "United Arab Emirates" },
-        { code: "OM", name: "Oman" },
-        { code: "BH", name: "Bahrain" },
-        { code: "KW", name: "Kuwait" },
-        { code: "LB", name: "Lebanon" },
-        { code: "JO", name: "Jordan" },
-        { code: "MA", name: "Morocco" },
-        { code: "TN", name: "Tunisia" },
-        { code: "DZ", name: "Algeria" },
-        { code: "LY", name: "Libya" },
-        { code: "SY", name: "Syria" },
+          { code: "US", name: "United States" },
+          { code: "GB", name: "United Kingdom" },
+          { code: "CA", name: "Canada" },
+          { code: "AU", name: "Australia" },
+          { code: "IN", name: "India" },
+          { code: "FR", name: "France" },
+          { code: "DE", name: "Germany" },
+          { code: "IT", name: "Italy" },
+          { code: "ES", name: "Spain" },
+          { code: "MX", name: "Mexico" },
+          { code: "BR", name: "Brazil" },
+          { code: "JP", name: "Japan" },
+          { code: "KR", name: "South Korea" },
+          { code: "ZA", name: "South Africa" },
+          { code: "SG", name: "Singapore" },
+          { code: "NL", name: "Netherlands" },
+          { code: "SE", name: "Sweden" },
+          { code: "NO", name: "Norway" },
+          { code: "DK", name: "Denmark" },
+          { code: "FI", name: "Finland" },
+          { code: "PL", name: "Poland" },
+          { code: "AT", name: "Austria" },
+          { code: "CH", name: "Switzerland" },
+          { code: "BE", name: "Belgium" },
+          { code: "IE", name: "Ireland" },
+          { code: "PT", name: "Portugal" },
+          { code: "GR", name: "Greece" },
+          { code: "CZ", name: "Czech Republic" },
+          { code: "HU", name: "Hungary" },
+          { code: "RO", name: "Romania" },
+          { code: "UA", name: "Ukraine" },
+          { code: "PH", name: "Philippines" },
+          { code: "TH", name: "Thailand" },
+          { code: "ID", name: "Indonesia" },
+          { code: "MY", name: "Malaysia" },
+          { code: "VN", name: "Vietnam" },
+          { code: "EG", name: "Egypt" },
+          { code: "KE", name: "Kenya" },
+          { code: "NG", name: "Nigeria" },
+          { code: "AR", name: "Argentina" },
+          { code: "CL", name: "Chile" },
+          { code: "CO", name: "Colombia" },
+          { code: "PE", name: "Peru" },
+          { code: "VE", name: "Venezuela" },
+          { code: "NZ", name: "New Zealand" },
+          { code: "KW", name: "Kuwait" },
+          { code: "QA", name: "Qatar" },
+          { code: "SA", name: "Saudi Arabia" },
+          { code: "AE", name: "United Arab Emirates" },
+          { code: "OM", name: "Oman" },
+          { code: "BH", name: "Bahrain" },
+          { code: "KW", name: "Kuwait" },
+          { code: "LB", name: "Lebanon" },
+          { code: "JO", name: "Jordan" },
+          { code: "MA", name: "Morocco" },
+          { code: "TN", name: "Tunisia" },
+          { code: "DZ", name: "Algeria" },
+          { code: "LY", name: "Libya" },
+          { code: "SY", name: "Syria" },
         ],
       },
       zipInput: {
@@ -969,7 +973,6 @@ export const config = {
       staggerDelay: 0.1,
     },
   },
-
 
   // Contact Us Page Configuration
   contactUs: {
@@ -1309,20 +1312,70 @@ export const config = {
       staggerDelay: 0.1,
     },
   },
-} as const
+} as const;
 
 // Type definitions
-export type Config = typeof config
-export type JsonUrlType = (typeof config.jsonUrls)[number]["type"]
+export type Config = typeof config;
+export type JsonUrlType = (typeof config.jsonUrls)[number]["type"];
 
 // Validate configuration
 if (!Array.isArray(config.jsonUrls) || config.jsonUrls.length < 1) {
-  throw new Error("Configuration Error: jsonUrls must be a non-empty array")
+  throw new Error("Configuration Error: jsonUrls must be a non-empty array");
 }
 
 config.jsonUrls.forEach((source, index) => {
   if (!source.url || !source.type) {
-    throw new Error(`Configuration Error: Invalid source at index ${index}. Must have url and type properties.`)
+    throw new Error(`Configuration Error: Invalid source at index ${index}. Must have url and type properties.`);
   }
-})
+});
 
+// New type for dynamic payment settings
+export type DynamicPaymentSettings = {
+  paypal?: {
+    receiverEmail?: string;
+    currency?: string;
+    showPayPalButton?: boolean;
+  };
+  payNow?: {
+    enabled?: boolean;
+    link?: string;
+  };
+};
+
+// New function to fetch dynamic payment settings from a separate JSON file
+export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
+  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/paymentConfig.json"; // Separate URL for payment settings
+  const defaults: DynamicPaymentSettings = {
+    paypal: {
+      receiverEmail: config.paypal.receiverEmail,
+      currency: config.paypal.currency,
+      showPayPalButton: config.paypal.showPayPalButton,
+    },
+    payNow: {
+      enabled: config.payNow.enabled,
+      link: config.payNow.link,
+    },
+  };
+
+  try {
+    const response = await fetch(paymentConfigUrl, { next: { revalidate: config.revalidateTime } });
+    if (!response.ok) throw new Error("Failed to fetch payment settings from JSON");
+
+    const dynamicSettings: DynamicPaymentSettings = await response.json();
+
+    return {
+      paypal: {
+        receiverEmail: dynamicSettings.paypal?.receiverEmail ?? defaults.paypal.receiverEmail,
+        currency: dynamicSettings.paypal?.currency ?? defaults.paypal.currency,
+        showPayPalButton: dynamicSettings.paypal?.showPayPalButton ?? defaults.paypal.showPayPalButton,
+      },
+      payNow: {
+        enabled: dynamicSettings.payNow?.enabled ?? defaults.payNow.enabled,
+        link: dynamicSettings.payNow?.link ?? defaults.payNow.link,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching dynamic payment settings:", error);
+    return defaults; // Fallback to defaults if fetch fails
+  }
+}
