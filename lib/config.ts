@@ -16,8 +16,8 @@ export const config = {
   header: {
     logo: {
       src: "https://cdn.dribbble.com/userupload/14768860/file/original-87bc83b70532fab75367f5f827e9137f.jpg?resize=400x300", // Change this to your logo URL
-      width: 98, // Height in pixels for desktop
-      height: 54, // Width in pixels for desktop
+      width: 88, // Height in pixels for desktop
+      height: 44, // Width in pixels for desktop
       mobileDimensions: {
         width: 40, // Height in pixels for mobile
         height: 12, // Width in pixels for mobile
