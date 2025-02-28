@@ -53,7 +53,7 @@ export function AboutUsContent() {
         </div>
         <div className="relative h-[300px] md:h-[400px]">
           <Image
-            src="https://images.unsplash.com/photo-1527359443443-84a48aec73d2?q=80&w=2070&auto=format&fit=crop"
+            src="https://www.stanley1913.com/cdn/shop/files/021125_Product_DT-CAN_62148587-eb84-4008-9ef9-03f74411d3a1.jpg?v=1740426135&width=1320"
             alt="Stanley product showcase"
             fill
             className="object-cover rounded-lg shadow-xl"
@@ -116,7 +116,7 @@ export function AboutUsContent() {
       >
         <div className="relative h-[300px] md:h-[400px]">
           <Image
-            src="https://images.unsplash.com/photo-1610824352934-c10d87b700cc?q=80&w=1905&auto=format&fit=crop"
+            src="https://www.stanley1913.com/cdn/shop/files/stanley-footer.jpg?v=1718313630"
             alt="Stanley innovative products"
             fill
             className="object-cover rounded-lg shadow-xl"
