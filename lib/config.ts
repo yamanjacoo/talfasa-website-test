@@ -1,20 +1,17 @@
 // config.ts
 
 export const config = {
-  // API Configuration
   jsonUrls: [
     {
-      url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json", // Kept for product fetching
+      url: "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/talfasa.json",
       type: "shopify" as const,
     },
   ],
   revalidateTime: 3600,
 
-  // Store Information
   storeName: "talfasa Store",
   storeDescription: "Shop the latest Talfasa adventure gear and drinkware",
 
-  // Header Configuration
   header: {
     logo: {
       src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500",
@@ -45,7 +42,6 @@ export const config = {
     announcementDuration: 4000,
   },
 
-  // Product Display Configuration
   defaultImage: "https://raw.githubusercontent.com/shadcn/ui/main/apps/www/public/placeholder.svg",
   fallbackImages: {
     product: "/placeholder.svg",
@@ -54,7 +50,6 @@ export const config = {
   },
   maxTagsInCard: 3,
 
-  // Pricing Configuration
   pricing: {
     fixedPrice: {
       enabled: true,
@@ -70,7 +65,6 @@ export const config = {
     },
   },
 
-  // Quantity Configuration
   quantity: {
     forceSingleStock: true,
     singleStockMessage: "Limited Edition - Only 1 Available",
@@ -80,7 +74,6 @@ export const config = {
     },
   },
 
-  // PayPal Configuration (static defaults)
   paypal: {
     clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6",
     receiverEmail: "ronjaa.curtis@outlook.com",
@@ -88,13 +81,11 @@ export const config = {
     showPayPalButton: false,
   },
 
-  // Pay Now Configuration (static defaults)
   payNow: {
     enabled: true,
     link: "https://pay.sumup.com/b2c/QWTUMLR1",
   },
 
-  // Hero Section Configuration
   hero: {
     animation: {
       duration: 0.8,
@@ -151,7 +142,6 @@ export const config = {
     },
   },
 
-  // Testimonials Configuration
   testimonials: {
     heading: {
       badge: "Testimonials",
@@ -208,7 +198,6 @@ export const config = {
     },
   },
 
-  // Gallery Section Configuration
   gallery: {
     heading: {
       badge: "#TalfasaStyle",
@@ -331,7 +320,6 @@ export const config = {
     },
   },
 
-  // Help Center Configuration
   helpCenter: {
     heading: {
       title: "Help Center",
@@ -507,7 +495,6 @@ export const config = {
     },
   },
 
-  // Warranty Page Configuration
   warranty: {
     heading: {
       title: "Warranty Information",
@@ -604,7 +591,6 @@ export const config = {
     },
   },
 
-  // Product Registration Page Configuration
   productRegistration: {
     heading: {
       title: "Product Registration",
@@ -710,7 +696,6 @@ export const config = {
     },
   },
 
-  // Shipping Page Configuration
   shipping: {
     heading: {
       title: "Shipping Information",
@@ -871,7 +856,6 @@ export const config = {
     },
   },
 
-  // About Us Page Configuration
   aboutUs: {
     heading: {
       title: "About Talfasa",
@@ -974,7 +958,6 @@ export const config = {
     },
   },
 
-  // Contact Us Page Configuration
   contactUs: {
     heading: {
       title: "Contact Us",
@@ -1052,7 +1035,6 @@ export const config = {
     },
   },
 
-  // Privacy Policy Configuration
   privacyPolicy: {
     heading: {
       title: "Privacy Policy",
@@ -1154,7 +1136,6 @@ export const config = {
     },
   },
 
-  // Returns Policy Configuration
   returnsPolicy: {
     heading: {
       title: "Returns Policy",
@@ -1236,7 +1217,6 @@ export const config = {
     },
   },
 
-  // Terms and Conditions Configuration
   termsAndConditions: {
     heading: {
       title: "Terms and Conditions",
@@ -1314,11 +1294,9 @@ export const config = {
   },
 } as const;
 
-// Type definitions
 export type Config = typeof config;
 export type JsonUrlType = (typeof config.jsonUrls)[number]["type"];
 
-// Validate configuration
 if (!Array.isArray(config.jsonUrls) || config.jsonUrls.length < 1) {
   throw new Error("Configuration Error: jsonUrls must be a non-empty array");
 }
@@ -1329,7 +1307,6 @@ config.jsonUrls.forEach((source, index) => {
   }
 });
 
-// New type for dynamic payment settings
 export type DynamicPaymentSettings = {
   paypal?: {
     receiverEmail?: string;
@@ -1342,9 +1319,8 @@ export type DynamicPaymentSettings = {
   };
 };
 
-// New function to fetch dynamic payment settings from a separate JSON file
 export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/payment-config.json"; // Separate URL for payment settings
+  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json"; // Updated URL (removed refs/heads)
   const defaults: DynamicPaymentSettings = {
     paypal: {
       receiverEmail: config.paypal.receiverEmail,
@@ -1359,9 +1335,10 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
 
   try {
     const response = await fetch(paymentConfigUrl, { next: { revalidate: config.revalidateTime } });
-    if (!response.ok) throw new Error("Failed to fetch payment settings from JSON");
-
+    if (!response.ok) throw new Error(`Failed to fetch payment settings: ${response.statusText}`);
+    
     const dynamicSettings: DynamicPaymentSettings = await response.json();
+    console.log("Successfully fetched payment settings from:", paymentConfigUrl, dynamicSettings); // Log success
 
     return {
       paypal: {
@@ -1376,6 +1353,6 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
     };
   } catch (error) {
     console.error("Error fetching dynamic payment settings:", error);
-    return defaults; // Fallback to defaults if fetch fails
+    return defaults;
   }
 }
