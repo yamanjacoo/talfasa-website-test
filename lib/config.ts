@@ -1344,7 +1344,7 @@ export type DynamicPaymentSettings = {
 
 // New function to fetch dynamic payment settings from a separate JSON file
 export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/paymentConfig.json"; // Separate URL for payment settings
+  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/refs/heads/main/payment-config.json"; // Separate URL for payment settings
   const defaults: DynamicPaymentSettings = {
     paypal: {
       receiverEmail: config.paypal.receiverEmail,
