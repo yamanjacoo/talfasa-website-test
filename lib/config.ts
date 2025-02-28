@@ -1320,7 +1320,7 @@ export type DynamicPaymentSettings = {
 };
 
 export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json"; // Updated URL (removed refs/heads)
+  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json"; // Updated URL
   const defaults: DynamicPaymentSettings = {
     paypal: {
       receiverEmail: config.paypal.receiverEmail,
@@ -1334,11 +1334,11 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
   };
 
   try {
-    const response = await fetch(paymentConfigUrl, { next: { revalidate: config.revalidateTime } });
+    const response = await fetch(paymentConfigUrl, { cache: "no-store" }); // Disable cache to ensure fresh fetch
     if (!response.ok) throw new Error(`Failed to fetch payment settings: ${response.statusText}`);
     
     const dynamicSettings: DynamicPaymentSettings = await response.json();
-    console.log("Successfully fetched payment settings from:", paymentConfigUrl, dynamicSettings); // Log success
+    console.log("Successfully fetched payment settings from:", paymentConfigUrl, dynamicSettings);
 
     return {
       paypal: {
