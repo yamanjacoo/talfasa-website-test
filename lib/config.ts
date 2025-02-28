@@ -9,13 +9,13 @@ export const config = {
   revalidateTime: 3600,
 
   // Store Information
-  storeName: "Talfasa Store",
-  storeDescription: "Shop the latest Stanley adventure gear and drinkware",
+  storeName: "talfasa Store",
+  storeDescription: "Shop the latest Talfasa adventure gear and drinkware",
 
   // Header Configuration
   header: {
     logo: {
-      src: "/stanley-logo.png", // Change this to your logo URL
+      src: "https://cdn.dribbble.com/userupload/14768860/file/original-87bc83b70532fab75367f5f827e9137f.jpg?resize=400x300", // Change this to your logo URL
       width: 48, // Height in pixels for desktop
       height: 14, // Width in pixels for desktop
       mobileDimensions: {
@@ -83,7 +83,7 @@ export const config = {
     clientId: "Ab-_RGJfzR_nlzigMBpi7ca4fNNjS2nlqTdRUylABhCLkVUTZy7KdOWb9xPEGmNq262xkObg7NQlzLN6",
     receiverEmail: "ronjaa.curtis@outlook.com",
     currency: "USD",
-    showPayPalButton: true,
+    showPayPalButton: false,
   },
   payNow: {
     enabled: true,
