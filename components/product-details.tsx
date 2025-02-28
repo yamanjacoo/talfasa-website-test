@@ -378,7 +378,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Truck className="h-4 w-4" />
-            <span>Free shipping on orders over $50</span>
+            <span>Free express shipping 1-2 days</span>
           </div>
         </div>
 
