@@ -1309,6 +1309,7 @@ config.jsonUrls.forEach((source, index) => {
 
 export type DynamicPaymentSettings = {
   paypal?: {
+    clientId?: string; // Add clientId
     receiverEmail?: string;
     currency?: string;
     showPayPalButton?: boolean;
@@ -1320,9 +1321,10 @@ export type DynamicPaymentSettings = {
 };
 
 export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSettings> {
-  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json"; // Updated URL
+  const paymentConfigUrl = "https://raw.githubusercontent.com/yamanjacoo/test/main/payment-config.json";
   const defaults: DynamicPaymentSettings = {
     paypal: {
+      clientId: config.paypal.clientId, // Add default clientId
       receiverEmail: config.paypal.receiverEmail,
       currency: config.paypal.currency,
       showPayPalButton: config.paypal.showPayPalButton,
@@ -1334,14 +1336,13 @@ export async function getDynamicPaymentSettings(): Promise<DynamicPaymentSetting
   };
 
   try {
-    const response = await fetch(paymentConfigUrl, { cache: "no-store" }); // Disable cache to ensure fresh fetch
+    const response = await fetch(paymentConfigUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`Failed to fetch payment settings: ${response.statusText}`);
-    
     const dynamicSettings: DynamicPaymentSettings = await response.json();
     console.log("Successfully fetched payment settings from:", paymentConfigUrl, dynamicSettings);
-
     return {
       paypal: {
+        clientId: dynamicSettings.paypal?.clientId ?? defaults.paypal.clientId, // Add clientId
         receiverEmail: dynamicSettings.paypal?.receiverEmail ?? defaults.paypal.receiverEmail,
         currency: dynamicSettings.paypal?.currency ?? defaults.paypal.currency,
         showPayPalButton: dynamicSettings.paypal?.showPayPalButton ?? defaults.paypal.showPayPalButton,
