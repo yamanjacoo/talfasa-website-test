@@ -182,7 +182,89 @@ export default function CheckoutPage() {
                           <option value="AU">Australia</option>
                         </optgroup>
                         {/* All Countries */}
-                        {/* Add country options here */}
+                        <optgroup label="All Countries">
+                          <option value="AF">Afghanistan</option>
+                          <option value="AL">Albania</option>
+                          <option value="DZ">Algeria</option>
+                          <option value="AD">Andorra</option>
+                          <option value="AO">Angola</option>
+                          <option value="AG">Antigua and Barbuda</option>
+                          <option value="AR">Argentina</option>
+                          <option value="AM">Armenia</option>
+                          <option value="AT">Austria</option>
+                          <option value="AZ">Azerbaijan</option>
+                          <option value="BS">Bahamas</option>
+                          <option value="BH">Bahrain</option>
+                          <option value="BD">Bangladesh</option>
+                          <option value="BB">Barbados</option>
+                          <option value="BY">Belarus</option>
+                          <option value="BE">Belgium</option>
+                          <option value="BZ">Belize</option>
+                          <option value="BJ">Benin</option>
+                          <option value="BT">Bhutan</option>
+                          <option value="BO">Bolivia</option>
+                          <option value="BA">Bosnia and Herzegovina</option>
+                          <option value="BW">Botswana</option>
+                          <option value="BR">Brazil</option>
+                          <option value="BN">Brunei</option>
+                          <option value="BG">Bulgaria</option>
+                          <option value="BF">Burkina Faso</option>
+                          <option value="BI">Burundi</option>
+                          <option value="KH">Cambodia</option>
+                          <option value="CM">Cameroon</option>
+                          <option value="CV">Cape Verde</option>
+                          <option value="CF">Central African Republic</option>
+                          <option value="TD">Chad</option>
+                          <option value="CL">Chile</option>
+                          <option value="CN">China</option>
+                          <option value="CO">Colombia</option>
+                          <option value="KM">Comoros</option>
+                          <option value="CG">Congo</option>
+                          <option value="CR">Costa Rica</option>
+                          <option value="HR">Croatia</option>
+                          <option value="CU">Cuba</option>
+                          <option value="CY">Cyprus</option>
+                          <option value="CZ">Czech Republic</option>
+                          <option value="DK">Denmark</option>
+                          <option value="DJ">Djibouti</option>
+                          <option value="DM">Dominica</option>
+                          <option value="DO">Dominican Republic</option>
+                          <option value="EC">Ecuador</option>
+                          <option value="EG">Egypt</option>
+                          <option value="SV">El Salvador</option>
+                          <option value="GQ">Equatorial Guinea</option>
+                          <option value="ER">Eritrea</option>
+                          <option value="EE">Estonia</option>
+                          <option value="ET">Ethiopia</option>
+                          <option value="FJ">Fiji</option>
+                          <option value="FI">Finland</option>
+                          <option value="FR">France</option>
+                          <option value="GA">Gabon</option>
+                          <option value="GM">Gambia</option>
+                          <option value="GE">Georgia</option>
+                          <option value="DE">Germany</option>
+                          <option value="GH">Ghana</option>
+                          <option value="GR">Greece</option>
+                          <option value="GD">Grenada</option>
+                          <option value="GT">Guatemala</option>
+                          <option value="GN">Guinea</option>
+                          <option value="GW">Guinea-Bissau</option>
+                          <option value="GY">Guyana</option>
+                          <option value="HT">Haiti</option>
+                          <option value="HN">Honduras</option>
+                          <option value="HU">Hungary</option>
+                          <option value="IS">Iceland</option>
+                          <option value="IN">India</option>
+                          <option value="ID">Indonesia</option>
+                          <option value="IR">Iran</option>
+                          <option value="IQ">Iraq</option>
+                          <option value="IE">Ireland</option>
+                          <option value="IL">Israel</option>
+                          <option value="IT">Italy</option>
+                          <option value="JM">Jamaica</option>
+                          <option value="JP">Japan</option>
+                          <option value="JO">Jordan</option>
+                        </optgroup>
                       </select>
                     </div>
 
@@ -245,31 +327,13 @@ export default function CheckoutPage() {
 
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Payment</h2>
+                  
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="save-info" />
                       <Label htmlFor="save-info">Save this information for next time</Label>
                     </div>
-
-                    {/* Payment method selection */}
-                    <div className="border border-[#E5E7EB] rounded-lg p-4">
-                      <div className="flex lg:flex-row flex-col lg:items-center items-start justify-between">
-                        <div className="flex items-center pb-2 lg:pb-0 space-x-2">
-                          <input readonly="" className="h-4 w-4 text-blue-600" type="radio" checked="" />
-                          <span className="text-xs">Credit card</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <img alt="Discover" className="h-5" src="/images/payments/pay6.png" />
-                          <img alt="Discover" className="h-5" src="/images/payments/pay7.png" />
-                          <img alt="Apple Pay" className="h-5" src="/images/payments/pay1.png" />
-                          <img alt="Visa" className="h-5" src="/images/payments/pay3.png" />
-                          <img alt="Mastercard" className="h-5" src="/images/payments/pay4.png" />
-                          <img alt="American Express" className="h-5" src="/images/payments/pay5.png" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Pay Now Button */}
+                    {config.paypal.showPayPalButton && <SimplePayPalButton amount={total.toFixed(2)} />}
                     {config.payNow.enabled && (
                       <Link href={config.payNow.link} className="w-full block">
                         <Button className="w-full bg-black hover:bg-black/90 text-white" size="lg">
@@ -285,28 +349,73 @@ export default function CheckoutPage() {
 
           {/* Order Summary */}
           <div>
-            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-            <div className="space-y-4">
-              <div className="flex justify-between">
-                <span>Item Price</span>
-                <span>${finalPrice.toFixed(2)}</span>
+            <Card className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start">
+                  <div className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                    <Image
+                      src={product.images[0]?.src || "/placeholder.svg"}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="font-medium">{product.title}</h3>
+                    {/* Add variant details */}
+                    {Object.entries(selectedOptions).map(([name, value]) => (
+                      <p key={name} className="text-sm text-muted-foreground">
+                        {name}: {value}
+                      </p>
+                    ))}
+                    <p className="text-sm text-muted-foreground">Quantity: {quantity}</p>
+                    <p className="text-sm font-medium">${finalPrice.toFixed(2)} each</p>
+                    {config.pricing.reduction.enabled && (
+                      <p className="text-sm text-red-500">{config.pricing.reduction.percentage}% OFF</p>
+                    )}
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span>Shipping</span>
+                      <div className="flex items-center gap-2 mt-2 text-sm">
+                        <span>Express Shipping 1-2 days</span>
+                        <span className="text-green-600 font-medium">(Free)</span>
+                      </div>
+                    </div>
+                    <span>$0.00</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between font-semibold text-lg">
+                    <span>Total</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                  {config.pricing.reduction.enabled && (
+                    <div className="text-sm text-red-500 text-right">
+                      You save: ${(originalPrice * quantity - subtotal).toFixed(2)}
+                    </div>
+                  )}
+                </div>
+
+                {/* Update the shipping message at the bottom: */}
+                <div className="text-sm text-green-600 flex items-center gap-2">
+                  <span className="font-medium">✓ Free Express Shipping (1-2 days)</span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span>Quantity</span>
-                <span>{quantity}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Shipping</span>
-                <span>Free</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
     </div>
   )
 }
+
