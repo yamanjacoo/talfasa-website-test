@@ -15,7 +15,7 @@ export const config = {
   // Header Configuration
   header: {
     logo: {
-      src: "https://cdn.dribbble.com/userupload/14768860/file/original-87bc83b70532fab75367f5f827e9137f.jpg?resize=400x300", // Change this to your logo URL
+      src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500", // Change this to your logo URL
       width: 88, // Height in pixels for desktop
       height: 44, // Width in pixels for desktop
       mobileDimensions: {
