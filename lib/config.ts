@@ -16,11 +16,11 @@ export const config = {
   header: {
     logo: {
       src: "https://www.stanley1913.com/cdn/shop/files/logo_00604157-46a8-4af8-ba97-f9711f7732fd.png?v=1702939937&width=500", // Change this to your logo URL
-      width: 88, // Height in pixels for desktop
-      height: 44, // Width in pixels for desktop
+      width: 108, // Height in pixels for desktop
+      height: 64, // Width in pixels for desktop
       mobileDimensions: {
-        width: 40, // Height in pixels for mobile
-        height: 12, // Width in pixels for mobile
+        width: 90, // Height in pixels for mobile
+        height: 62, // Width in pixels for mobile
       },
       alt: "Stanley Logo",
     },
