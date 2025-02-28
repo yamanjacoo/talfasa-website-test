@@ -25,12 +25,12 @@ interface CreateOrderResponse {
   orderID: string
 }
 
-function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalButtonProps) {
-  console.log("PayPal Button Config:", { receiverEmail, currency }); // Debug PayPal props
+function SimplePayPalButton({ amount, receiverEmail, currency, clientId }: SimplePayPalButtonProps) {
+  console.log("PayPal Button Config:", { clientId, receiverEmail, currency }); // Include clientId in log
   return (
     <PayPalScriptProvider
       options={{
-        clientId: config.paypal.clientId,
+        clientId: clientId, // Use dynamic clientId
         currency: currency,
       }}
     >
@@ -67,6 +67,26 @@ function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalBut
     </PayPalScriptProvider>
   )
 }
+
+// Update props interface
+interface SimplePayPalButtonProps {
+  amount: string
+  receiverEmail: string
+  currency: string
+  clientId: string // Add clientId
+}
+
+// Update usage in CheckoutPage
+{paymentSettings.paypal.showPayPalButton ? (
+  <SimplePayPalButton
+    amount={total.toFixed(2)}
+    receiverEmail={paymentSettings.paypal.receiverEmail}
+    currency={paymentSettings.paypal.currency}
+    clientId={paymentSettings.paypal.clientId} // Pass dynamic clientId
+  />
+) : (
+  <p>PayPal payment is currently disabled.</p>
+)}
 
 function calculateFinalPrice(originalPrice: number): number {
   if (config.pricing.fixedPrice.enabled) {
