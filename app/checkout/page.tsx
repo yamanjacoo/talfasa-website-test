@@ -17,8 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 interface SimplePayPalButtonProps {
   amount: string
-  receiverEmail: string // Add dynamic receiverEmail
-  currency: string // Add dynamic currency
+  receiverEmail: string
+  currency: string
 }
 
 interface CreateOrderResponse {
@@ -26,11 +26,12 @@ interface CreateOrderResponse {
 }
 
 function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalButtonProps) {
+  console.log("PayPal Button Config:", { receiverEmail, currency }); // Log for debugging
   return (
     <PayPalScriptProvider
       options={{
-        clientId: config.paypal.clientId, // Keep static clientId from config
-        currency: currency, // Use dynamic currency
+        clientId: config.paypal.clientId,
+        currency: currency,
       }}
     >
       <PayPalButtons
@@ -41,7 +42,7 @@ function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalBut
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              receiver_email: receiverEmail, // Use dynamic receiverEmail
+              receiver_email: receiverEmail,
               amount: amount,
             }),
           })
@@ -55,13 +56,11 @@ function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalBut
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               orderID: data.orderID,
-              receiver_email: receiverEmail, // Use dynamic receiverEmail
+              receiver_email: receiverEmail,
             }),
           })
           const details = await response.json()
           console.log("Capture Response:", details)
-
-          // Redirect to order confirmation after successful payment
           window.location.href = `/order-confirmation?orderId=${Date.now()}`
         }}
       />
@@ -69,7 +68,6 @@ function SimplePayPalButton({ amount, receiverEmail, currency }: SimplePayPalBut
   )
 }
 
-// Function to calculate the final price based on configuration
 function calculateFinalPrice(originalPrice: number): number {
   if (config.pricing.fixedPrice.enabled) {
     return config.pricing.fixedPrice.amount
@@ -87,8 +85,6 @@ export default function CheckoutPage() {
   const { products } = useProducts()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const shipping = 0 // Express shipping is always free
-
-  // State for dynamic payment settings
   const [paymentSettings, setPaymentSettings] = useState({
     paypal: {
       receiverEmail: config.paypal.receiverEmail,
@@ -100,22 +96,29 @@ export default function CheckoutPage() {
       link: config.payNow.link,
     },
   })
+  const [loading, setLoading] = useState(true) // Add loading state
 
-  // Fetch dynamic payment settings on mount
   useEffect(() => {
     async function fetchPaymentSettings() {
-      const settings = await getDynamicPaymentSettings()
-      setPaymentSettings({
-        paypal: {
-          receiverEmail: settings.paypal?.receiverEmail || config.paypal.receiverEmail,
-          currency: settings.paypal?.currency || config.paypal.currency,
-          showPayPalButton: settings.paypal?.showPayPalButton ?? config.paypal.showPayPalButton,
-        },
-        payNow: {
-          enabled: settings.payNow?.enabled ?? config.payNow.enabled,
-          link: settings.payNow?.link || config.payNow.link,
-        },
-      })
+      try {
+        const settings = await getDynamicPaymentSettings()
+        console.log("Fetched Payment Settings:", settings) // Log fetched settings
+        setPaymentSettings({
+          paypal: {
+            receiverEmail: settings.paypal?.receiverEmail || config.paypal.receiverEmail,
+            currency: settings.paypal?.currency || config.paypal.currency,
+            showPayPalButton: settings.paypal?.showPayPalButton ?? config.paypal.showPayPalButton,
+          },
+          payNow: {
+            enabled: settings.payNow?.enabled ?? config.payNow.enabled,
+            link: settings.payNow?.link || config.payNow.link,
+          },
+        })
+      } catch (error) {
+        console.error("Fetch Payment Settings Failed:", error)
+      } finally {
+        setLoading(false) // Set loading to false after fetch
+      }
     }
     fetchPaymentSettings()
   }, [])
@@ -135,7 +138,6 @@ export default function CheckoutPage() {
     )
   }
 
-  // Get selected options from URL parameters
   const selectedOptions: Record<string, string> = {}
   if (product.options) {
     product.options.forEach((option) => {
@@ -146,7 +148,6 @@ export default function CheckoutPage() {
     })
   }
 
-  // Find the selected variant based on options
   const selectedVariant =
     product.variants.find((variant) => {
       return product.options?.every((option, index) => {
@@ -173,7 +174,6 @@ export default function CheckoutPage() {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Checkout Form */}
           <div className="space-y-6">
             <Card className="p-6">
               <form className="space-y-6">
@@ -208,14 +208,12 @@ export default function CheckoutPage() {
                         required
                       >
                         <option value="">Select a country...</option>
-                        {/* Common/Popular Countries */}
                         <optgroup label="Common Destinations">
                           <option value="US">United States</option>
                           <option value="GB">United Kingdom</option>
                           <option value="CA">Canada</option>
                           <option value="AU">Australia</option>
                         </optgroup>
-                        {/* All Countries */}
                         <optgroup label="All Countries">
                           <option value="AF">Afghanistan</option>
                           <option value="AL">Albania</option>
@@ -361,25 +359,30 @@ export default function CheckoutPage() {
 
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Payment</h2>
-                  
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                       <Checkbox id="save-info" />
                       <Label htmlFor="save-info">Save this information for next time</Label>
                     </div>
-                    {paymentSettings.paypal.showPayPalButton && (
-                      <SimplePayPalButton
-                        amount={total.toFixed(2)}
-                        receiverEmail={paymentSettings.paypal.receiverEmail}
-                        currency={paymentSettings.paypal.currency}
-                      />
-                    )}
-                    {paymentSettings.payNow.enabled && (
-                      <Link href={paymentSettings.payNow.link} className="w-full block">
-                        <Button className="w-full bg-black hover:bg-black/90 text-white" size="lg">
-                          Pay Now ${total.toFixed(2)}
-                        </Button>
-                      </Link>
+                    {loading ? (
+                      <p>Loading payment options...</p>
+                    ) : (
+                      <>
+                        {paymentSettings.paypal.showPayPalButton && (
+                          <SimplePayPalButton
+                            amount={total.toFixed(2)}
+                            receiverEmail={paymentSettings.paypal.receiverEmail}
+                            currency={paymentSettings.paypal.currency}
+                          />
+                        )}
+                        {paymentSettings.payNow.enabled && (
+                          <Link href={paymentSettings.payNow.link} className="w-full block">
+                            <Button className="w-full bg-black hover:bg-black/90 text-white" size="lg">
+                              Pay Now ${total.toFixed(2)}
+                            </Button>
+                          </Link>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -387,7 +390,6 @@ export default function CheckoutPage() {
             </Card>
           </div>
 
-          {/* Order Summary */}
           <div>
             <Card className="p-6">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
@@ -403,7 +405,6 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-grow">
                     <h3 className="font-medium">{product.title}</h3>
-                    {/* Add variant details */}
                     {Object.entries(selectedOptions).map(([name, value]) => (
                       <p key={name} className="text-sm text-muted-foreground">
                         {name}: {value}
@@ -446,7 +447,6 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Update the shipping message at the bottom: */}
                 <div className="text-sm text-green-600 flex items-center gap-2">
                   <span className="font-medium">✓ Free Express Shipping (1-2 days)</span>
                 </div>
