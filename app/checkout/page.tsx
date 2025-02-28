@@ -358,7 +358,7 @@ export default function CheckoutPage() {
 
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Payment</h2>
-                  <div className="bg-[#F5F5F5] p-6 rounded-md mb-6">
+                  /* <div className="bg-[#F5F5F5] p-6 rounded-md mb-6">
                     <div className="flex flex-col items-center text-center space-y-4">
                       <div className="relative w-16 h-16">
                         <svg
@@ -374,7 +374,7 @@ export default function CheckoutPage() {
                           <path d="M11 3v4" />
                           <path d="M15 10l2 2-2 2" />
                         </svg>
-                      </div>
+                      </div> */
                       <p className="text-sm text-gray-600 max-w-md">
                         After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase
                         securely.
