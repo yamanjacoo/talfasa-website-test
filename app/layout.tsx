@@ -25,6 +25,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="gh8Be2uKexW__KzvV8mYfy9uieRLnV0VyjcqxP9KqkI"
         />
+        <script src="//code.tidio.co/maullumgweq8igyhvwva4s8ounpmr5fu.js" async></script>
       </head>
       <body className={inter.className}>
         <Header />
